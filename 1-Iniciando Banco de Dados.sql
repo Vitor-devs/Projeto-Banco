@@ -89,12 +89,12 @@ JOIN Estudio E ON F.IdEstudio = E.IdEstudio
 JOIN Dublador D ON F.IdFilme = D.IdFilme
 WHERE E.NomeEstudio = 'Pixar Animation Studios';
 
-#Retornar o título, nome do estúdio, nome do diretor e nacionalidade do diretor dos filmes de aventura com duração superior a 100 minutos:
+#Retornar o título, nome do estúdio, nome do diretor e nacionalidade do diretor dos filmes de animação com duração superior a 100 minutos:
 SELECT F.Titulo, E.NomeEstudio, D.NomeDiretor, D.Nacionalidade
 FROM Filme F
 JOIN Estudio E ON F.IdEstudio = E.IdEstudio
 JOIN Diretor D ON F.IdDiretor = D.IdDiretor
-WHERE F.Genero = 'Aventura' AND F.Duracao > 100;
+WHERE F.Genero = 'Animação' AND F.Duracao > 100;
 
 
 #Retornar o título, ano de lançamento e nome do estúdio dos filmes que têm o dublador Steve Carell:
