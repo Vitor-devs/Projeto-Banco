@@ -1,16 +1,15 @@
 #recebe como parâmetro o nome de um gênero de filme e lista todos os filmes do banco de dados que pertencem a esse gênero
 USE BancoFilmes;
+GO
 
-DELIMITER //
-
-CREATE PROCEDURE obter_filmes_por_genero(IN nome_genero VARCHAR(50))
+CREATE PROCEDURE obter_filmes_por_genero
+    @nome_genero VARCHAR(50)
+AS
 BEGIN
     SELECT Titulo, AnoLancamento, Genero, Duracao
     FROM Filme
-    WHERE Genero = nome_genero;
-END //
+    WHERE Genero = @nome_genero;
+END;
+GO
 
-DELIMITER ;
-
-CALL obter_filmes_por_genero('Animação');
-
+EXEC obter_filmes_por_genero @nome_genero = 'Animação';
