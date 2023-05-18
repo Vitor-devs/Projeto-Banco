@@ -1,19 +1,19 @@
 USE BancoFilmes;
+GO
 
-DELIMITER //
-
-CREATE FUNCTION obter_duracao_media_filmes_genero(nome_genero VARCHAR(50))
+CREATE FUNCTION obter_duracao_media_filmes_genero
+    (@nome_genero VARCHAR(50))
 RETURNS DECIMAL(5,2)
+AS
 BEGIN
-    DECLARE duracao_media DECIMAL(5,2);
-    
-    SELECT AVG(Duracao) INTO duracao_media
+    DECLARE @duracao_media DECIMAL(5,2);
+
+    SELECT @duracao_media = AVG(Duracao)
     FROM Filme
-    WHERE Genero = nome_genero;
-    
-    RETURN duracao_media;
-END //
+    WHERE Genero = @nome_genero;
 
-DELIMITER ;
+    RETURN @duracao_media;
+END;
+GO
 
-SELECT obter_duracao_media_filmes_genero('Animação') AS DuracaoMediaAcao;
+SELECT dbo.obter_duracao_media_filmes_genero('Animação') AS DuracaoMediaAnimacao;
