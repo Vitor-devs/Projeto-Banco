@@ -1,14 +1,20 @@
 USE BancoFilmes;
-
-DELIMITER //
+GO
 
 CREATE TRIGGER aumentar_duracao_filme
-BEFORE INSERT ON Filme
-FOR EACH ROW
+ON Filme
+BEFORE INSERT
+AS
 BEGIN
-    IF NEW.Genero = 'Animação' THEN
-        SET NEW.Duracao = NEW.Duracao + 30;
-    END IF;
-END //
+    SET NOCOUNT ON;
 
-DELIMITER ;
+    IF EXISTS (SELECT * FROM inserted WHERE Genero = 'Animação')
+    BEGIN
+        UPDATE Filme
+        SET Duracao = Duracao + 30
+        FROM Filme
+        INNER JOIN inserted ON Filme.IdFilme = inserted.IdFilme
+        WHERE Filme.Genero = 'Animação';
+    END
+END;
+GO
