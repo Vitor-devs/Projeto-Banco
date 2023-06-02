@@ -1,0 +1,30 @@
+USE BancoFilmes;
+GO
+
+CREATE TRIGGER aumentar_duracao_filme
+ON Filme
+INSTEAD OF INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF EXISTS (SELECT * FROM inserted WHERE Genero = 'Animação')
+    BEGIN
+        INSERT INTO Filme (Titulo, AnoLancamento, Genero, Duracao, IdDiretor, IdEstudio)
+        SELECT Titulo, AnoLancamento, Genero, Duracao + 30, IdDiretor, IdEstudio
+        FROM inserted
+        WHERE Genero = 'Animação';
+
+        INSERT INTO Filme (Titulo, AnoLancamento, Genero, Duracao, IdDiretor, IdEstudio)
+        SELECT Titulo, AnoLancamento, Genero, Duracao, IdDiretor, IdEstudio
+        FROM inserted
+        WHERE Genero <> 'Animação';
+    END
+    ELSE
+    BEGIN
+        INSERT INTO Filme (Titulo, AnoLancamento, Genero, Duracao, IdDiretor, IdEstudio)
+        SELECT Titulo, AnoLancamento, Genero, Duracao, IdDiretor, IdEstudio
+        FROM inserted;
+    END
+END;
+GO
